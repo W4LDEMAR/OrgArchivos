@@ -257,19 +257,22 @@ void push_mid(ListaSimple *lista, Nodo *n, int lugar){
 void imp_search(ListaSimple *lista){
 
     char nombre[50];
-    int lugar, i;
+    int lugar, i, x;
     Nodo *aux;
     aux = lista->start;
 
     printf("Ingresa el nombre la persona que deseas buscar:\n");
     fflush(stdin);
     gets(nombre);
+    for(x = 0; nombre[x] != NULL; ++x){
+        nombre[x] = toupper(nombre[x]);
+    }
 
     lugar = search(lista, nombre);
 
     if(lugar < 0){
-        printf("ERROR: No se encontro ninguna persona con ese nombre");
-        printf("Veriica el ingreso de datos");
+        printf("ERROR: No se encontro ninguna persona con ese nombre\n");
+        printf("Veriica el ingreso de datos\n");
         system("pause");
         return;
     }
@@ -326,7 +329,7 @@ short int borrar(ListaSimple *lista){
 
     char nombre[50];
     Nodo *aux;
-    int lugar;
+    int lugar, i;
 
     if(is_empty(lista) == 0){//La lista esta vacia y se devuelve 1
         printf("ERROR: La lista esta vacia, no hay nada que borrar");
@@ -345,6 +348,9 @@ short int borrar(ListaSimple *lista){
             printf("Introduce el nombre completo de la persona que deseas borrar:\n");
             fflush(stdin);
             gets(nombre);
+            for(i = 0; nombre[i] != NULL; ++i){
+            nombre[i] = toupper(nombre[i]);
+            }
             lugar = search(lista, nombre);
 
             if(lugar < 0){
