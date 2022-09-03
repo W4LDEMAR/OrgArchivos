@@ -25,13 +25,16 @@ typedef struct{
 
     Nodo *start;
     Nodo *end;
-    int tam;
+    int total;
 
 } Lista;
 
 int ver_op();
+Lista *nuevaLista();
+short int push(Lista *);
+short int borrar(Lista *);
 
-void menuLDL(){
+void main(){
 
     Lista *lista;
     lista = nuevaLista(); // Inicializando la lista
@@ -41,13 +44,13 @@ void menuLDL(){
     do{
 
         system("cls");
-        printf("\t*** Lista simplemente ligada ***\n");
+        printf("\t*** Lista Doblemente ligada ***\n");
         printf("1.- Agregar un alumno.\n");
         printf("2.- Borrar un alumno.\n");
         printf("3.- Buscar un alumno.\n");
         printf("4.- Desplegar la lista.\n");
         printf("0.- REGRESAR \n");
-        op = ver_op();
+        op = ver_op(4);
 
         switch(op){
             case 1:
@@ -80,16 +83,17 @@ void menuLDL(){
 
 }
 
-int ver_op(){//Verifica si la opcion del menu es correcta
+int ver_op(int n){//Verifica si la opcion elegida esta dentro de los parametros
 
     int op;
 
     printf("\nIngrese la opcion deseada:\n");
     scanf("%d", &op);
 
-    if(op < 0 || op > 4){
+    if(op < 0 || op > n){
         printf("ERROR: Elige una opcion dentro del menu.");
-        op = ver_op();
+        system("pause");
+        op = ver_op(n);
     }
 
     return op;
@@ -154,6 +158,7 @@ Nodo *nuevoNodo(){ //Crea un nodo para llenarlo con los datos solicitados
     nuevo = (Nodo*)malloc(sizeof(Nodo));
 
     if(nuevo != NULL){
+        nuevo->pre = NULL;
         nuevo->datos = nuevaPersona();
         nuevo->sig = NULL;
     }
@@ -200,6 +205,7 @@ short int push(Lista *lista){
 
 void push_end(Lista *lista, Nodo *n){//Inserta al final de la lista
 
+    n->pre = lista->end;
     lista->end->sig = n;
     lista->end=n;
     lista->total++;
@@ -209,6 +215,7 @@ void push_end(Lista *lista, Nodo *n){//Inserta al final de la lista
 void push_start(Lista *lista, Nodo *n){
 
     n->sig = lista->start;
+    lista->start->pre = n;
     lista->start = n;
     lista->total++;
 
@@ -230,27 +237,60 @@ void push_mid(Lista *lista, Nodo *n, int lugar){
         aux = aux->sig;
     }
 
+    n->pre = pre;
     pre->sig = n;
+    aux->pre = n;
     n->sig = aux;
     lista->total++;
 
 }
 
-void imp_search(Lista *lista){
+void imp_search(Lista *lista){//Imprime unicamente el nodo que el usuario indica
 
     char nombre[50];
-    int lugar, i, x;
+    int lugar, i, x, r, z;
     Nodo *aux;
     aux = lista->start;
 
-    printf("Ingresa el nombre la persona que deseas buscar:\n");
-    fflush(stdin);
-    gets(nombre);
-    for(x = 0; nombre[x] != NULL; ++x){
-        nombre[x] = toupper(nombre[x]);
-    }
+    system("cls");
+    printf("\n\t **** B U S Q U E D A ****\n");
+    printf("1.- Buscar por nombre\n");
+    printf("2.- Buscar por telefono\n");
+    printf("3.- Buscar por clave\n");
+    printf("0.- REGRESAR\n");
+    r = ver_op(3);
 
-    lugar = search(lista, nombre);
+    switch(r){
+
+        case 0:
+            return;
+            break;
+
+        case 1:
+            printf("Ingresa el nombre la persona que deseas buscar:\n");
+            fflush(stdin);
+            gets(nombre);
+            for(x = 0; nombre[x] != NULL; ++x){
+                nombre[x] = toupper(nombre[x]);
+            }
+            lugar = search_nombre(lista, nombre);
+            break;
+
+        case 2:
+            printf("Ingresa el telefono de la persona que deseas buscar:\n");
+            fflush(stdin);
+            scanf("%d", &z);
+            lugar = search_tel(lista, z);
+            break;
+
+        case 3:
+            printf("Ingresa la clave de la persona que deseas buscar:\n");
+            fflush(stdin);
+            scanf("%d", &z);
+            lugar = search_clave(lista, z);
+            break;
+
+    }
 
     if(lugar < 0){
         printf("ERROR: No se encontro ningun alumno con ese nombre\n");
@@ -263,17 +303,58 @@ void imp_search(Lista *lista){
         aux = aux->sig;
     }
 
-    printf("%d ---> %s ---> Tel. %d\n", aux->datos.clave, aux->datos.nombre, aux->datos.semestre);
+    printf("%d ---> %s ---> Tel. %d\n", aux->datos.clave, aux->datos.nombre, aux->datos.tel);
+    system("pause");
 }
 
-int search(Lista *lista, char n[]){ //Busca por nombre en la lista y reresa la posicion del nodo en el que esta.
+int search_nombre(Lista *lista, char n[]){ //Busca por nombre en la lista y reresa la posicion del nodo en el que esta.
     //Si no se encontro el nombre regresa -1
 
     Nodo *aux;
     int x;
     aux = lista->start;
 
-    while(aux != NULL && n != aux->datos.nombre){
+    while(aux != NULL && strcmp(n, aux->datos.nombre)){
+        x++;
+        aux = aux->sig;
+    }
+
+    if(aux == NULL){
+        return -1;
+    }else{
+        return x;
+    }
+
+}
+
+int search_tel(Lista *lista, int tel){//Busca por numero de tel. en la lista y reresa la posicion del nodo en el que esta.
+    //Si no se encontro el nombre regresa -1
+
+    Nodo *aux;
+    int x;
+    aux = lista->start;
+
+    while(aux != NULL && tel != aux->datos.tel){
+        x++;
+        aux = aux->sig;
+    }
+
+    if(aux == NULL){
+        return -1;
+    }else{
+        return x;
+    }
+
+}
+
+int search_clave(Lista *lista, int clave){//Busca por numero de tel. en la lista y reresa la posicion del nodo en el que esta.
+    //Si no se encontro el nombre regresa -1
+
+    Nodo *aux;
+    int x;
+    aux = lista->start;
+
+    while(aux != NULL && clave != aux->datos.clave){
         x++;
         aux = aux->sig;
     }
@@ -310,16 +391,19 @@ int orden(Lista *lista, char n[]){ //Comprobara enue lugar insertara el nodo
 short int borrar(Lista *lista){
 
     char nombre[50];
+    int lugar, i, x, r, z;
     Nodo *aux;
-    int lugar, i;
+    aux = lista->start;
 
     if(is_empty(lista) == 0){//La lista esta vacia y se devuelve 1
         printf("ERROR: La lista esta vacia, no hay nada que borrar");
         return 1;
-    }else{//Si no esta vacia entonces...
+    }else{
 
         if(lista->total == 1){
             //Se borrara el unico nodo de la lista
+            printf("El unico alumno de la lista sera borrado...");
+            system("pause");
             aux = lista->start;
             lista->start = NULL;
             lista->end = NULL;
@@ -327,16 +411,48 @@ short int borrar(Lista *lista){
 
         }else{
 
-            printf("Introduce el nombre completo de la persona que deseas borrar:\n");
-            fflush(stdin);
-            gets(nombre);
-            for(i = 0; nombre[i] != NULL; ++i){
-            nombre[i] = toupper(nombre[i]);
+            system("cls");
+            printf("\n\t **** B U S Q U E D A ****\n");
+            printf("1.- Buscar por nombre\n");
+            printf("2.- Buscar por telefono\n");
+            printf("3.- Buscar por clave\n");
+            printf("0.- REGRESAR\n");
+            r = ver_op(3);
+
+            switch(r){
+
+                case 0:
+                    return;
+                    break;
+
+                case 1:
+                    printf("Ingresa el nombre la persona que deseas buscar:\n");
+                    fflush(stdin);
+                    gets(nombre);
+                    for(x = 0; nombre[x] != NULL; ++x){
+                        nombre[x] = toupper(nombre[x]);
+                    }
+                    lugar = search_nombre(lista, nombre);
+                    break;
+
+                case 2:
+                    printf("Ingresa el telefono de la persona que deseas buscar:\n");
+                    fflush(stdin);
+                    scanf("%d", z);
+                    lugar = search_tel(lista, z);
+                    break;
+
+                case 3:
+                    printf("Ingresa la clave de la persona que deseas buscar:\n");
+                    fflush(stdin);
+                    scanf("%d", z);
+                    lugar = search_clave(lista, z);
+                    break;
+
             }
-            lugar = search(lista, nombre);
 
             if(lugar < 0){
-                printf("ERROR: No se encontro ninguna persona con ese nombre.\n");
+                printf("ERROR: No se encontro ninguna persona con esos datos.\n");
                 return 1;
             }else if(lugar == lista->total){
                 //Se borrara el final
@@ -351,6 +467,7 @@ short int borrar(Lista *lista){
                 borrar_mid(lista, lugar);
                 return 0;
             }
+
         }
     }
 }
@@ -360,6 +477,7 @@ void borrar_start(Lista *lista){//Se borrara el primer elemento de la lista
     Nodo *aux;
     aux = lista->start;
 
+    lista->start->pre = NULL;
     lista->start = lista->start->sig;
     free(aux);
     lista->total--;
@@ -381,6 +499,7 @@ void borrar_end(Lista *lista){
     free(aux);
     lista->total--;
 
+
 }
 
 void borrar_mid(Lista *lista, int lugar){
@@ -395,6 +514,7 @@ void borrar_mid(Lista *lista, int lugar){
     }
 
     pre->sig = aux->sig;
+    aux->sig->pre = pre;
     free(aux);
     lista->total--;
 
@@ -407,19 +527,51 @@ void imp_lista(Lista *lista){
     */
 
     Nodo *aux;
-    aux = lista->start;
+    int x;
 
     system("cls");
-    printf("\n\t\t**** D A T O S ****\n");
-    while(aux != NULL){
 
-        printf("%d ---> %s ---> Tel. %d\n", aux->datos.clave, aux->datos.nombre, aux->datos.tel);
-        aux = aux->sig;
+    if(lista->total == 0){//Si la lista esta vacia no entra a la seleccion de orden de impresion
+        printf("\n\n\tERROR: La lista se encuentra vacia ingresa primero algunos datos\n");
+        system("pause");
+        return;
+    }
+
+    printf("1.- Mostrar en orden ascendente\n");
+    printf("2.- Mostrar en orden descendente\n");
+    printf("0.- REGRESAR\n");
+
+    x = ver_op(2);
+
+    switch(x){
+        case 1://Imprimira del inicio de la lista hasta el final
+
+            aux = lista->start;
+
+            printf("\n\t\t**** D A T O S ****\n");
+            while(aux != NULL){
+
+                printf("%d ---> %s ---> Tel. %d\n", aux->datos.clave, aux->datos.nombre, aux->datos.tel);
+                aux = aux->sig;
+
+            }
+            break;
+
+        case 2://Imprimira del final de la lista hasta el inicio
+
+            aux = lista->end;
+            printf("\n\t\t**** D A T O S ****\n");
+            while(aux != NULL){
+
+                printf("%d ---> %s ---> Tel. %d\n", aux->datos.clave, aux->datos.nombre, aux->datos.tel);
+                aux = aux->pre;
+
+            }
+            break;
 
     }
 
     system("pause");
-
 }
 
 #endif // LDL_H_INCLUDED

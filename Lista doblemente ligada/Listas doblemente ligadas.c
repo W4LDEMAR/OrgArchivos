@@ -247,7 +247,7 @@ void push_mid(Lista *lista, Nodo *n, int lugar){
 
 }
 
-void imp_search(Lista *lista){
+void imp_search(Lista *lista){//Imprime unicamente el nodo que el usuario indica
 
     char nombre[50];
     int lugar, i, x, r, z;
@@ -400,10 +400,12 @@ short int borrar(Lista *lista){
     if(is_empty(lista) == 0){//La lista esta vacia y se devuelve 1
         printf("ERROR: La lista esta vacia, no hay nada que borrar");
         return 1;
-    }else{//Si no esta vacia entonces...
+    }else{
 
         if(lista->total == 1){
             //Se borrara el unico nodo de la lista
+            printf("El unico alumno de la lista sera borrado...");
+            system("pause");
             aux = lista->start;
             lista->start = NULL;
             lista->end = NULL;
@@ -530,6 +532,13 @@ void imp_lista(Lista *lista){
     int x;
 
     system("cls");
+
+    if(lista->total == 0){//Si la lista esta vacia no entra a la seleccion de orden de impresion
+        printf("\n\n\tERROR: La lista se encuentra vacia ingresa primero algunos datos\n");
+        system("pause");
+        return;
+    }
+
     printf("1.- Mostrar en orden ascendente\n");
     printf("2.- Mostrar en orden descendente\n");
     printf("0.- REGRESAR\n");
@@ -537,7 +546,7 @@ void imp_lista(Lista *lista){
     x = ver_op(2);
 
     switch(x){
-        case 1:
+        case 1://Imprimira del inicio de la lista hasta el final
 
             aux = lista->start;
 
@@ -548,10 +557,9 @@ void imp_lista(Lista *lista){
                 aux = aux->sig;
 
             }
-            system("pause");
             break;
 
-        case 2:
+        case 2://Imprimira del final de la lista hasta el inicio
 
             aux = lista->end;
             printf("\n\t\t**** D A T O S ****\n");
@@ -561,10 +569,11 @@ void imp_lista(Lista *lista){
                 aux = aux->pre;
 
             }
-            system("pause");
             break;
 
     }
+
+    system("pause");
 }
 
 
