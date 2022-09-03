@@ -1,0 +1,14 @@
+# depslib dependency file v1.0
+1661957168 source:d:\users\al220742\desktop\primer examen parcial eddyoda\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"LSL.h"
+
+1661957251 d:\users\al220742\desktop\primer examen parcial eddyoda\lsl.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<ctype.h>
+
