@@ -38,11 +38,13 @@ int main(){
             case 1:
 
                 menuLSL();
+                return 0;
                 break;
 
             case 2:
 
                 menuLDL();
+                return 0;
                 break;
 
         }

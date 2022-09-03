@@ -59,7 +59,7 @@ void menuLSL(){
         printf("2.- Borrar un alumno.\n");
         printf("3.- Buscar un alumno.\n");
         printf("4.- Desplegar la lista.\n");
-        printf("0.- REGRESAR \n");
+        printf("0.- SALIR \n");
         op = ver_op();
 
         switch(op){
@@ -83,6 +83,7 @@ void menuLSL(){
                 break;
             case 3:
                 imp_search(lista);
+                system("pause");
                 break;
             case 4:
                 imp_lista(lista);
@@ -249,7 +250,7 @@ void push_mid(ListaSimple *lista, Nodo *n, int lugar){
 
 }
 
-void imp_search(ListaSimple *lista){
+void imp_search(ListaSimple *lista){//Imprime el nodo solicitado
 
     char nombre[50];
     int lugar, i, x;
@@ -379,7 +380,7 @@ void borrar_start(ListaSimple *lista){//Se borrara el primer elemento de la list
 
 }
 
-void borrar_end(ListaSimple *lista){
+void borrar_end(ListaSimple *lista){//Borra el ultimo nodo
 
     Nodo *aux, *pre;
     aux = lista->end;
@@ -396,7 +397,7 @@ void borrar_end(ListaSimple *lista){
 
 }
 
-void borrar_mid(ListaSimple *lista, int lugar){
+void borrar_mid(ListaSimple *lista, int lugar){//Borra el nodo del lugar solicitado
 
     int i;
     Nodo *aux, *pre;
@@ -423,6 +424,12 @@ void imp_lista(ListaSimple *lista){
     aux = lista->start;
 
     system("cls");
+
+    if(lista->total == 0){
+        printf("\n\n\tERROR: La listase encuentra vacia, primero introduce algunos datos\n");
+        system("pause");
+    }
+
     printf("\n\t\t**** D A T O S ****\n");
     while(aux != NULL){
 

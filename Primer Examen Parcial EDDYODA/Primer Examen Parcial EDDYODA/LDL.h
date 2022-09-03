@@ -11,33 +11,33 @@ typedef struct{
     char nombre[50];
     int tel;
 
-} Alumno;
+} AlumnoD;
 
-typedef struct Nodo{
+typedef struct NodoD{
 
-    struct Nodo *pre;
+    struct NodoD *pre;
     Alumno datos;
-    struct Nodo *sig;
+    struct NodoD *sig;
 
-} Nodo;
+} NodoD;
 
 typedef struct{
 
-    Nodo *start;
-    Nodo *end;
+    NodoD *start;
+    NodoD *end;
     int total;
 
-} Lista;
+} ListaD;
 
-int ver_op();
-Lista *nuevaLista();
-short int push(Lista *);
-short int borrar(Lista *);
+int ver_opD();
+ListaD *nuevaListaD();
+short int pushD(ListaD *);
+short int borrarD(ListaD *);
 
-void main(){
+void menuLDL(){
 
-    Lista *lista;
-    lista = nuevaLista(); // Inicializando la lista
+    ListaD *lista;
+    lista = nuevaListaD(); // Inicializando la lista
     int op;
     short int v;
 
@@ -49,12 +49,12 @@ void main(){
         printf("2.- Borrar un alumno.\n");
         printf("3.- Buscar un alumno.\n");
         printf("4.- Desplegar la lista.\n");
-        printf("0.- REGRESAR \n");
-        op = ver_op(4);
+        printf("0.- SALIR \n");
+        op = ver_opD(4);
 
         switch(op){
             case 1:
-                v = push(lista);
+                v = pushD(lista);
                 if(v != 0){
                     printf("Error: No se pudo completar la accion.\n");
                     system("pause");
@@ -63,7 +63,7 @@ void main(){
                 }
                 break;
             case 2:
-                v = borrar(lista);
+                v = borrarD(lista);
                 if(v != 0){
                     system("pause");
                 }else{
@@ -72,10 +72,10 @@ void main(){
                 }
                 break;
             case 3:
-                imp_search(lista);
+                imp_searchD(lista);
                 break;
             case 4:
-                imp_lista(lista);
+                imp_listaD(lista);
                 break;
         }
 
@@ -83,7 +83,7 @@ void main(){
 
 }
 
-int ver_op(int n){//Verifica si la opcion elegida esta dentro de los parametros
+int ver_opD(int n){//Verifica si la opcion elegida esta dentro de los parametros
 
     int op;
 
@@ -93,16 +93,16 @@ int ver_op(int n){//Verifica si la opcion elegida esta dentro de los parametros
     if(op < 0 || op > n){
         printf("ERROR: Elige una opcion dentro del menu.");
         system("pause");
-        op = ver_op(n);
+        op = ver_opD(n);
     }
 
     return op;
 }
 
-Lista *nuevaLista(){
+ListaD *nuevaListaD(){
 
-    Lista *nueva;
-    nueva = (Lista*)malloc(sizeof(Lista));
+    ListaD *nueva;
+    nueva = (ListaD*)malloc(sizeof(ListaD));
     nueva->start = NULL;
     nueva->end = NULL;
     nueva->total = 0;
@@ -110,7 +110,7 @@ Lista *nuevaLista(){
     return nueva;
 }
 
-short int is_empty(Lista *lista){// Verifica si la lista esta vacia
+short int is_emptyD(ListaD *lista){// Verifica si la lista esta vacia
 
     //0 si esta vacia y 1 si tiene datos
 
@@ -121,14 +121,14 @@ short int is_empty(Lista *lista){// Verifica si la lista esta vacia
     }
 }
 
-Alumno nuevaPersona(){ //Llenar los datos de la persona
+AlumnoD nuevaPersonaD(){ //Llenar los datos de la persona
 
     /*
     Pregunta al usuario por los datos de la persona que quiere ingresar al sistema
     Regresa un estructura de tipo Info
     */
 
-    Alumno nuevo;
+    AlumnoD nuevo;
     char nombre[50];
     int i;
 
@@ -152,10 +152,10 @@ Alumno nuevaPersona(){ //Llenar los datos de la persona
 
 }
 
-Nodo *nuevoNodo(){ //Crea un nodo para llenarlo con los datos solicitados
+NodoD *nuevoNodoD(){ //Crea un nodo para llenarlo con los datos solicitados
 
-    Nodo *nuevo;
-    nuevo = (Nodo*)malloc(sizeof(Nodo));
+    NodoD *nuevo;
+    nuevo = (NodoD*)malloc(sizeof(NodoD));
 
     if(nuevo != NULL){
         nuevo->pre = NULL;
@@ -166,17 +166,17 @@ Nodo *nuevoNodo(){ //Crea un nodo para llenarlo con los datos solicitados
     return nuevo;
 }
 
-short int push(Lista *lista){
+short int pushD(ListaD *lista){
     //Se decidira si se insertara al inicio, en medio o al final.
 
-    Nodo *nuevo;
+    NodoD *nuevo;
     char nombre[50];
     int lugar;
 
-    nuevo = nuevoNodo();
+    nuevo = nuevoNodoD();
     strcpy(nombre, nuevo->datos.nombre);
 
-    if(is_empty(lista) == 0){ //verifica si esta vacia
+    if(is_emptyD(lista) == 0){ //verifica si esta vacia
         //Si la lista esta vacia entonces hara un push inicial
 
         lista->start = nuevo;
@@ -185,25 +185,25 @@ short int push(Lista *lista){
 
         return 0;
     }else{
-        lugar = orden(lista, nuevo->datos.nombre);
+        lugar = ordenD(lista, nuevo->datos.nombre);
         if(lugar < 0){
             //Se insertara al final
-            push_end(lista, nuevo);
+            push_endD(lista, nuevo);
             return 0;
         }else if(lugar == 0){
             //Se insertara al incio
-            push_start(lista, nuevo);
+            push_startD(lista, nuevo);
             return 0;
         }else{
             //Se insertara al en la posicion de "lugar"
-            push_mid(lista, nuevo, lugar);
+            push_midD(lista, nuevo, lugar);
             return 0;
         }
     }
     return 1;
 }
 
-void push_end(Lista *lista, Nodo *n){//Inserta al final de la lista
+void push_endD(ListaD *lista, NodoD *n){//Inserta al final de la lista
 
     n->pre = lista->end;
     lista->end->sig = n;
@@ -212,7 +212,7 @@ void push_end(Lista *lista, Nodo *n){//Inserta al final de la lista
 
 }
 
-void push_start(Lista *lista, Nodo *n){
+void push_startD(ListaD *lista, NodoD *n){
 
     n->sig = lista->start;
     lista->start->pre = n;
@@ -221,9 +221,9 @@ void push_start(Lista *lista, Nodo *n){
 
 }
 
-void push_mid(Lista *lista, Nodo *n, int lugar){
+void push_midD(ListaD *lista, NodoD *n, int lugar){
 
-    Nodo *aux, *pre;
+    NodoD *aux, *pre;
     int i;
     aux = lista->start;
 
@@ -245,11 +245,11 @@ void push_mid(Lista *lista, Nodo *n, int lugar){
 
 }
 
-void imp_search(Lista *lista){//Imprime unicamente el nodo que el usuario indica
+void imp_searchD(ListaD *lista){//Imprime unicamente el nodo que el usuario indica
 
     char nombre[50];
     int lugar, i, x, r, z;
-    Nodo *aux;
+    NodoD *aux;
     aux = lista->start;
 
     system("cls");
@@ -258,7 +258,7 @@ void imp_search(Lista *lista){//Imprime unicamente el nodo que el usuario indica
     printf("2.- Buscar por telefono\n");
     printf("3.- Buscar por clave\n");
     printf("0.- REGRESAR\n");
-    r = ver_op(3);
+    r = ver_opD(3);
 
     switch(r){
 
@@ -273,21 +273,21 @@ void imp_search(Lista *lista){//Imprime unicamente el nodo que el usuario indica
             for(x = 0; nombre[x] != NULL; ++x){
                 nombre[x] = toupper(nombre[x]);
             }
-            lugar = search_nombre(lista, nombre);
+            lugar = search_nombreD(lista, nombre);
             break;
 
         case 2:
             printf("Ingresa el telefono de la persona que deseas buscar:\n");
             fflush(stdin);
             scanf("%d", &z);
-            lugar = search_tel(lista, z);
+            lugar = search_telD(lista, z);
             break;
 
         case 3:
             printf("Ingresa la clave de la persona que deseas buscar:\n");
             fflush(stdin);
             scanf("%d", &z);
-            lugar = search_clave(lista, z);
+            lugar = search_claveD(lista, z);
             break;
 
     }
@@ -307,10 +307,10 @@ void imp_search(Lista *lista){//Imprime unicamente el nodo que el usuario indica
     system("pause");
 }
 
-int search_nombre(Lista *lista, char n[]){ //Busca por nombre en la lista y reresa la posicion del nodo en el que esta.
+int search_nombreD(ListaD *lista, char n[]){ //Busca por nombre en la lista y reresa la posicion del nodo en el que esta.
     //Si no se encontro el nombre regresa -1
 
-    Nodo *aux;
+    NodoD *aux;
     int x;
     aux = lista->start;
 
@@ -327,10 +327,10 @@ int search_nombre(Lista *lista, char n[]){ //Busca por nombre en la lista y rere
 
 }
 
-int search_tel(Lista *lista, int tel){//Busca por numero de tel. en la lista y reresa la posicion del nodo en el que esta.
+int search_telD(ListaD *lista, int tel){//Busca por numero de tel. en la lista y reresa la posicion del nodo en el que esta.
     //Si no se encontro el nombre regresa -1
 
-    Nodo *aux;
+    NodoD *aux;
     int x;
     aux = lista->start;
 
@@ -347,10 +347,10 @@ int search_tel(Lista *lista, int tel){//Busca por numero de tel. en la lista y r
 
 }
 
-int search_clave(Lista *lista, int clave){//Busca por numero de tel. en la lista y reresa la posicion del nodo en el que esta.
+int search_claveD(ListaD *lista, int clave){//Busca por numero de tel. en la lista y reresa la posicion del nodo en el que esta.
     //Si no se encontro el nombre regresa -1
 
-    Nodo *aux;
+    NodoD *aux;
     int x;
     aux = lista->start;
 
@@ -367,11 +367,11 @@ int search_clave(Lista *lista, int clave){//Busca por numero de tel. en la lista
 
 }
 
-int orden(Lista *lista, char n[]){ //Comprobara enue lugar insertara el nodo
+int ordenD(ListaD *lista, char n[]){ //Comprobara enue lugar insertara el nodo
 
     //Devuelve la posicion en la que se insertara el nodo.
 
-    Nodo *aux;
+    NodoD *aux;
     int x = 0;
     aux = lista->start;
 
@@ -388,14 +388,14 @@ int orden(Lista *lista, char n[]){ //Comprobara enue lugar insertara el nodo
 
 }
 
-short int borrar(Lista *lista){
+short int borrarD(ListaD *lista){
 
     char nombre[50];
     int lugar, i, x, r, z;
-    Nodo *aux;
+    NodoD *aux;
     aux = lista->start;
 
-    if(is_empty(lista) == 0){//La lista esta vacia y se devuelve 1
+    if(is_emptyD(lista) == 0){//La lista esta vacia y se devuelve 1
         printf("ERROR: La lista esta vacia, no hay nada que borrar");
         return 1;
     }else{
@@ -417,7 +417,7 @@ short int borrar(Lista *lista){
             printf("2.- Buscar por telefono\n");
             printf("3.- Buscar por clave\n");
             printf("0.- REGRESAR\n");
-            r = ver_op(3);
+            r = ver_opD(3);
 
             switch(r){
 
@@ -432,21 +432,21 @@ short int borrar(Lista *lista){
                     for(x = 0; nombre[x] != NULL; ++x){
                         nombre[x] = toupper(nombre[x]);
                     }
-                    lugar = search_nombre(lista, nombre);
+                    lugar = search_nombreD(lista, nombre);
                     break;
 
                 case 2:
                     printf("Ingresa el telefono de la persona que deseas buscar:\n");
                     fflush(stdin);
                     scanf("%d", z);
-                    lugar = search_tel(lista, z);
+                    lugar = search_telD(lista, z);
                     break;
 
                 case 3:
                     printf("Ingresa la clave de la persona que deseas buscar:\n");
                     fflush(stdin);
                     scanf("%d", z);
-                    lugar = search_clave(lista, z);
+                    lugar = search_claveD(lista, z);
                     break;
 
             }
@@ -456,15 +456,15 @@ short int borrar(Lista *lista){
                 return 1;
             }else if(lugar == lista->total){
                 //Se borrara el final
-                borrar_end(lista);
+                borrar_endD(lista);
                 return 0;
             }else if(lugar == 0){
                 //Se borrara el inicio
-                borrar_start(lista);
+                borrar_startD(lista);
                 return 0;
             }else{
                 //Se borrara el nodo en la posicion "lugar"
-                borrar_mid(lista, lugar);
+                borrar_midD(lista, lugar);
                 return 0;
             }
 
@@ -472,9 +472,9 @@ short int borrar(Lista *lista){
     }
 }
 
-void borrar_start(Lista *lista){//Se borrara el primer elemento de la lista
+void borrar_startD(ListaD *lista){//Se borrara el primer elemento de la lista
 
-    Nodo *aux;
+    NodoD *aux;
     aux = lista->start;
 
     lista->start->pre = NULL;
@@ -484,9 +484,9 @@ void borrar_start(Lista *lista){//Se borrara el primer elemento de la lista
 
 }
 
-void borrar_end(Lista *lista){
+void borrar_endD(ListaD *lista){
 
-    Nodo *aux, *pre;
+    NodoD *aux, *pre;
     aux = lista->end;
     pre = lista->start;
 
@@ -502,10 +502,10 @@ void borrar_end(Lista *lista){
 
 }
 
-void borrar_mid(Lista *lista, int lugar){
+void borrar_midD(ListaD *lista, int lugar){
 
     int i;
-    Nodo *aux, *pre;
+    NodoD *aux, *pre;
     aux = lista->start;
 
     for(i = 0; i < lugar; i++){ //Recorrera la lista guardando un lugar anterioal alcutal
@@ -520,13 +520,13 @@ void borrar_mid(Lista *lista, int lugar){
 
 }
 
-void imp_lista(Lista *lista){
+void imp_listaD(ListaD *lista){
     /*
     Recorre la lista con un auxiliar hasta llegar al ultimo (el que es nulo)
     imprimiendo todos sus datos.
     */
 
-    Nodo *aux;
+    NodoD *aux;
     int x;
 
     system("cls");
@@ -541,7 +541,7 @@ void imp_lista(Lista *lista){
     printf("2.- Mostrar en orden descendente\n");
     printf("0.- REGRESAR\n");
 
-    x = ver_op(2);
+    x = ver_opD(2);
 
     switch(x){
         case 1://Imprimira del inicio de la lista hasta el final
