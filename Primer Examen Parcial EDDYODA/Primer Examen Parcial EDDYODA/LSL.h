@@ -24,16 +24,15 @@ typedef struct Nodo{ // Nodo simple
 
 typedef struct{ //Control de Lista Simplemente Ligada
 
-    int total;
     Nodo *start;
     Nodo *end;
+    int total;
 
 } ListaSimple;
 
 void imp_lista(ListaSimple *);
 int ver_op();
 ListaSimple *nuevaLista();
-short int is_empty(ListaSimple *);
 Alumno nuevaPersona();
 Nodo *nuevoNodo();
 int orden(ListaSimple *, char []);
@@ -44,7 +43,7 @@ void push_start(ListaSimple *, Nodo *);
 void push_end(ListaSimple *, Nodo *);
 short int borrar(ListaSimple *);
 
-ListaSimple menuLSL(ListaSimple *lista){
+ListaSimple *menuLSL(ListaSimple *lista){
 
     if(!lista){
         // Inicializando la lista si no existe
@@ -68,6 +67,8 @@ ListaSimple menuLSL(ListaSimple *lista){
         op = ver_op();
 
         switch(op){
+            case 0:
+                return lista;
             case 1:
                 v = push(lista);
                 if(v != 0){
@@ -97,7 +98,6 @@ ListaSimple menuLSL(ListaSimple *lista){
 
     }while(op != 0);
 
-    return lista;
 }
 
 int ver_op(){//Verifica si la opcion del menu es correcta
@@ -115,26 +115,16 @@ int ver_op(){//Verifica si la opcion del menu es correcta
     return op;
 }
 
-ListaSimple *nuevaLista(){
+ListaSimple *nuevaLista(){//crea la lista
 
     ListaSimple *nueva;
+
     nueva = (ListaSimple*)malloc(sizeof(ListaSimple));
     nueva->start = NULL;
     nueva->end = NULL;
     nueva->total = 0;
 
     return nueva;
-}
-
-short int is_empty(ListaSimple *lista){// Verifica si la lista esta vacia
-
-    //0 si esta vacia y 1 si tiene datos
-
-    if(lista->total == 0){
-        return 0;
-    }else{
-        return 1;
-    }
 }
 
 Alumno nuevaPersona(){ //Llenar los datos de la persona
@@ -191,9 +181,9 @@ short int push(ListaSimple *lista){
     nuevo = nuevoNodo();
     strcpy(nombre, nuevo->datos.nombre);
 
-    if(is_empty(lista) == 0){ //verifica si esta vacia
+    if(lista->total == 0){ //verifica si esta vacia
         //Si la lista esta vacia entonces hara un push inicial
-
+        system("pause");
         lista->start = nuevo;
         lista->end = nuevo;
         lista->total++;
@@ -284,6 +274,7 @@ void imp_search(ListaSimple *lista){//Imprime el nodo solicitado
     }
 
     printf("%d ---> %s ---> Tel. %d\n", aux->datos.clave, aux->datos.nombre, aux->datos.tel);
+    system("pause");
 }
 
 int search(ListaSimple *lista, char n[]){ //Busca por nombre en la lista y reresa la posicion del nodo en el que esta.
@@ -293,7 +284,7 @@ int search(ListaSimple *lista, char n[]){ //Busca por nombre en la lista y reres
     int x;
     aux = lista->start;
 
-    while(aux != NULL && n != aux->datos.nombre){
+    while(aux != NULL && strcmp(n, aux->datos.nombre) != 0){
         x++;
         aux = aux->sig;
     }
@@ -333,7 +324,7 @@ short int borrar(ListaSimple *lista){
     Nodo *aux;
     int lugar, i;
 
-    if(is_empty(lista) == 0){//La lista esta vacia y se devuelve 1
+    if(lista->total == 0){//La lista esta vacia y se devuelve 1
         printf("ERROR: La lista esta vacia, no hay nada que borrar");
         return 1;
     }else{//Si no esta vacia entonces...

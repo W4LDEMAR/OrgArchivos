@@ -34,7 +34,7 @@ ListaD *nuevaListaD();
 short int pushD(ListaD *);
 short int borrarD(ListaD *);
 
-ListaD menuLDL(ListaD *lista){
+ListaD *menuLDL(ListaD *lista){
 
     if(!lista){
         lista = nuevaListaD(); // Inicializando la lista si est no existe
@@ -53,10 +53,13 @@ ListaD menuLDL(ListaD *lista){
         printf("2.- Borrar un alumno.\n");
         printf("3.- Buscar un alumno.\n");
         printf("4.- Desplegar la lista.\n");
-        printf("0.- SALIR \n");
+        printf("0.- REGRESAR \n");
         op = ver_opD(4);
 
         switch(op){
+
+            case 0:
+                return lista;
             case 1:
                 v = pushD(lista);
                 if(v != 0){
@@ -85,7 +88,6 @@ ListaD menuLDL(ListaD *lista){
 
     }while(op != 0);
 
-    return lista;
 }
 
 int ver_opD(int n){//Verifica si la opcion elegida esta dentro de los parametros

@@ -40,13 +40,11 @@ int main(){
             case 1:
 
                 listaSimple = menuLSL(listaSimple);
-                return 0;
                 break;
 
             case 2:
 
                 listaDoble = menuLDL(listaDoble);
-                return 0;
                 break;
 
         }
