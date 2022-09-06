@@ -34,10 +34,14 @@ ListaD *nuevaListaD();
 short int pushD(ListaD *);
 short int borrarD(ListaD *);
 
-void menuLDL(){
+ListaD menuLDL(ListaD *lista){
 
-    ListaD *lista;
-    lista = nuevaListaD(); // Inicializando la lista
+    if(!lista){
+        lista = nuevaListaD(); // Inicializando la lista si est no existe
+    }
+
+    //Si ya existe entonces trabaara con la lista ya creada
+
     int op;
     short int v;
 
@@ -81,6 +85,7 @@ void menuLDL(){
 
     }while(op != 0);
 
+    return lista;
 }
 
 int ver_opD(int n){//Verifica si la opcion elegida esta dentro de los parametros

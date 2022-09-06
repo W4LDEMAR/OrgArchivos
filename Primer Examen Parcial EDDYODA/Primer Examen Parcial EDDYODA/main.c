@@ -16,6 +16,8 @@ Sosa Hernandez Saul Waldemar
 int main(){
 
     int op = 3;
+    ListaSimple *listaSimple;
+    ListaD *listaDoble;
 
     do{
 
@@ -37,13 +39,13 @@ int main(){
 
             case 1:
 
-                menuLSL();
+                listaSimple = menuLSL(listaSimple);
                 return 0;
                 break;
 
             case 2:
 
-                menuLDL();
+                listaDoble = menuLDL(listaDoble);
                 return 0;
                 break;
 

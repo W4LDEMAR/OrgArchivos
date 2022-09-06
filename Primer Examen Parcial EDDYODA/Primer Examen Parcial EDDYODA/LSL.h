@@ -44,10 +44,15 @@ void push_start(ListaSimple *, Nodo *);
 void push_end(ListaSimple *, Nodo *);
 short int borrar(ListaSimple *);
 
-void menuLSL(){
+ListaSimple menuLSL(ListaSimple *lista){
 
-    ListaSimple *lista;
-    lista = nuevaLista(); // Inicializando la lista
+    if(!lista){
+        // Inicializando la lista si no existe
+        lista = nuevaLista();
+    }
+
+    //Si la lista ya existe entonces la maneja
+
     int op;
     short int v;
 
@@ -92,6 +97,7 @@ void menuLSL(){
 
     }while(op != 0);
 
+    return lista;
 }
 
 int ver_op(){//Verifica si la opcion del menu es correcta

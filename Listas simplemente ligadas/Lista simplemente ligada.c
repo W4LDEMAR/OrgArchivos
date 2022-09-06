@@ -282,6 +282,7 @@ void imp_search(ListaSimple *lista){
     }
 
     printf("%d ---> %s tiene %d anos\n", aux->datos.id, aux->datos.nombre, aux->datos.edad);
+    system("pause");
 }
 
 int search(ListaSimple *lista, char n[]){ //Busca por nombre en la lista y reresa la posicion del nodo en el que esta.
@@ -291,7 +292,7 @@ int search(ListaSimple *lista, char n[]){ //Busca por nombre en la lista y reres
     int x;
     aux = lista->start;
 
-    while(aux != NULL && n != aux->datos.nombre){
+    while(aux != NULL && strcmp(n, aux->datos.nombre) != 0){
         x++;
         aux = aux->sig;
     }
