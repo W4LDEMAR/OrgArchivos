@@ -17,7 +17,9 @@ int main(){
 
     int op = 3;
     ListaSimple *listaSimple;
+    listaSimple = nuevaLista();
     ListaD *listaDoble;
+    listaDoble = nuevaListaD();
 
     do{
 

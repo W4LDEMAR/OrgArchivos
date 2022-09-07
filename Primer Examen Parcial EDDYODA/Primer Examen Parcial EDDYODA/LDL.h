@@ -36,10 +36,6 @@ short int borrarD(ListaD *);
 
 ListaD *menuLDL(ListaD *lista){
 
-    if(!lista){
-        lista = nuevaListaD(); // Inicializando la lista si est no existe
-    }
-
     //Si ya existe entonces trabaara con la lista ya creada
 
     int op;

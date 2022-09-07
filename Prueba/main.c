@@ -1,6 +1,3 @@
-#ifndef LSL_H_INCLUDED
-#define LSL_H_INCLUDED
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,31 +5,32 @@
 
 typedef struct{ //Estructura para datos de una persona
 
-    int clave;
+    int id;
     char nombre[50];
-    int tel;
+    int edad;
 
-} Alumno;
+} Info;
 
 typedef struct Nodo{ // Nodo simple
 
-    Alumno datos;
+    Info datos;
     struct Nodo *sig;
 
 } Nodo;
 
 typedef struct{ //Control de Lista Simplemente Ligada
 
+    int total;
     Nodo *start;
     Nodo *end;
-    int total;
 
 } ListaSimple;
 
 void imp_lista(ListaSimple *);
 int ver_op();
 ListaSimple *nuevaLista();
-Alumno nuevaPersona();
+short int is_empty(ListaSimple *);
+Info nuevaPersona();
 Nodo *nuevoNodo();
 int orden(ListaSimple *, char []);
 int search(ListaSimple *, char []);
@@ -42,10 +40,12 @@ void push_start(ListaSimple *, Nodo *);
 void push_end(ListaSimple *, Nodo *);
 short int borrar(ListaSimple *);
 
-ListaSimple *menuLSL(ListaSimple *lista){
+int main(){
 
-    //Si la lista ya existe entonces la maneja
-
+    ListaSimple *lista;
+    if(!lista){
+        lista = nuevaLista();
+    } // Inicializando la lista
     int op;
     short int v;
 
@@ -53,23 +53,21 @@ ListaSimple *menuLSL(ListaSimple *lista){
 
         system("cls");
         printf("\t*** Lista simplemente ligada ***\n");
-        printf("1.- Agregar un alumno.\n");
-        printf("2.- Borrar un alumno.\n");
-        printf("3.- Buscar un alumno.\n");
+        printf("1.- Agregar una persona.\n");
+        printf("2.- Borrar una persona.\n");
+        printf("3.- Buscar una persona.\n");
         printf("4.- Desplegar la lista.\n");
-        printf("0.- REGRESAR \n");
+        printf("0.-  SALIR \n");
         op = ver_op();
 
         switch(op){
-            case 0:
-                return lista;
             case 1:
                 v = push(lista);
                 if(v != 0){
                     printf("Error: No se pudo completar la accion.\n");
                     system("pause");
                 }else{
-                    printf("Alumno agregado con exito!!");
+                    printf("Persona agregada con exito!!");
                 }
                 break;
             case 2:
@@ -77,22 +75,21 @@ ListaSimple *menuLSL(ListaSimple *lista){
                 if(v != 0){
                     system("pause");
                 }else{
-                    printf("Alumno eliminado con exito!!");
+                    printf("Persona eliminada con exito!!");
                     system("pause");
                 }
                 break;
             case 3:
                 imp_search(lista);
-                system("pause");
                 break;
             case 4:
                 imp_lista(lista);
-                system("pause");
                 break;
         }
 
     }while(op != 0);
 
+    return 0;
 }
 
 int ver_op(){//Verifica si la opcion del menu es correcta
@@ -110,10 +107,9 @@ int ver_op(){//Verifica si la opcion del menu es correcta
     return op;
 }
 
-ListaSimple *nuevaLista(){//crea la lista
+ListaSimple *nuevaLista(){
 
     ListaSimple *nueva;
-
     nueva = (ListaSimple*)malloc(sizeof(ListaSimple));
     nueva->start = NULL;
     nueva->end = NULL;
@@ -122,32 +118,43 @@ ListaSimple *nuevaLista(){//crea la lista
     return nueva;
 }
 
-Alumno nuevaPersona(){ //Llenar los datos de la persona
+short int is_empty(ListaSimple *lista){// Verifica si la lista esta vacia
+
+    //0 si esta vacia y 1 si tiene datos
+
+    if(lista->total == 0){
+        return 0;
+    }else{
+        return 1;
+    }
+}
+
+Info nuevaPersona(){ //Llenar los datos de la persona
 
     /*
     Pregunta al usuario por los datos de la persona que quiere ingresar al sistema
     Regresa un estructura de tipo Info
     */
 
-    Alumno nuevo;
+    Info nuevo;
     char nombre[50];
     int i;
 
     system("cls");
     printf("\t\t**** L L E N A D O   D E   D A T O S ****\n\n");
-    printf("Ingresa la clave del alumno:\n");
+    printf("Ingresa el id de la persona:\n");
     fflush(stdin);
-    scanf("%d", &nuevo.clave);
-    printf("Ingresa el nombre del alumno:\n");
+    scanf("%d", &nuevo.id);
+    printf("Ingresa el nombre de la persona:\n");
     fflush(stdin);
     gets(nombre);
     for(i = 0; nombre[i] != NULL; ++i){
         nombre[i] = toupper(nombre[i]);
     }
     strcpy(nuevo.nombre, nombre);
-    printf("Ingresa el telefono del alumno:\n");
+    printf("Ingresa la edad de la persona:\n");
     fflush(stdin);
-    scanf("%d", &nuevo.tel);
+    scanf("%d", &nuevo.edad);
 
     return nuevo;
 
@@ -176,8 +183,9 @@ short int push(ListaSimple *lista){
     nuevo = nuevoNodo();
     strcpy(nombre, nuevo->datos.nombre);
 
-    if(lista->total == 0){ //verifica si esta vacia
+    if(is_empty(lista) == 0){ //verifica si esta vacia
         //Si la lista esta vacia entonces hara un push inicial
+
         lista->start = nuevo;
         lista->end = nuevo;
         lista->total++;
@@ -240,21 +248,13 @@ void push_mid(ListaSimple *lista, Nodo *n, int lugar){
 
 }
 
-void imp_search(ListaSimple *lista){//Imprime el nodo solicitado
+void imp_search(ListaSimple *lista){
 
     char nombre[50];
     int lugar, i, x;
     Nodo *aux;
     aux = lista->start;
 
-    if(lista->total == 0){
-        printf("La lista se encuentra vacia, primero agrega algunos datos.\n");\
-        system("pause");
-        return;
-    }
-
-    system("cls");
-    printf("\t****B U S Q U E D A****\n");
     printf("Ingresa el nombre la persona que deseas buscar:\n");
     fflush(stdin);
     gets(nombre);
@@ -265,7 +265,7 @@ void imp_search(ListaSimple *lista){//Imprime el nodo solicitado
     lugar = search(lista, nombre);
 
     if(lugar < 0){
-        printf("ERROR: No se encontro ningun alumno con ese nombre\n");
+        printf("ERROR: No se encontro ninguna persona con ese nombre\n");
         printf("Veriica el ingreso de datos\n");
         system("pause");
         return;
@@ -275,7 +275,8 @@ void imp_search(ListaSimple *lista){//Imprime el nodo solicitado
         aux = aux->sig;
     }
 
-    printf("%d ---> %s ---> Tel. %d\n", aux->datos.clave, aux->datos.nombre, aux->datos.tel);
+    printf("%d ---> %s tiene %d anos\n", aux->datos.id, aux->datos.nombre, aux->datos.edad);
+    system("pause");
 }
 
 int search(ListaSimple *lista, char n[]){ //Busca por nombre en la lista y reresa la posicion del nodo en el que esta.
@@ -325,7 +326,7 @@ short int borrar(ListaSimple *lista){
     Nodo *aux;
     int lugar, i;
 
-    if(lista->total == 0){//La lista esta vacia y se devuelve 1
+    if(is_empty(lista) == 0){//La lista esta vacia y se devuelve 1
         printf("ERROR: La lista esta vacia, no hay nada que borrar");
         return 1;
     }else{//Si no esta vacia entonces...
@@ -378,7 +379,7 @@ void borrar_start(ListaSimple *lista){//Se borrara el primer elemento de la list
 
 }
 
-void borrar_end(ListaSimple *lista){//Borra el ultimo nodo
+void borrar_end(ListaSimple *lista){
 
     Nodo *aux, *pre;
     aux = lista->end;
@@ -395,7 +396,7 @@ void borrar_end(ListaSimple *lista){//Borra el ultimo nodo
 
 }
 
-void borrar_mid(ListaSimple *lista, int lugar){//Borra el nodo del lugar solicitado
+void borrar_mid(ListaSimple *lista, int lugar){
 
     int i;
     Nodo *aux, *pre;
@@ -422,21 +423,14 @@ void imp_lista(ListaSimple *lista){
     aux = lista->start;
 
     system("cls");
-
-    if(lista->total == 0){
-        printf("\n\n\tERROR: La listase encuentra vacia, primero introduce algunos datos\n");
-        system("pause");
-        return;
-    }
-
     printf("\n\t\t**** D A T O S ****\n");
     while(aux != NULL){
 
-        printf("%d ---> %s ---> Tel. %d\n", aux->datos.clave, aux->datos.nombre, aux->datos.tel);
+        printf("%d ---> %s tiene %d anos\n", aux->datos.id, aux->datos.nombre, aux->datos.edad);
         aux = aux->sig;
 
     }
 
-}
+    system("pause");
 
-#endif // LSL_H_INCLUDED
+}
