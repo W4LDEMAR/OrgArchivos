@@ -253,6 +253,12 @@ void imp_search(ListaSimple *lista){//Imprime el nodo solicitado
     Nodo *aux;
     aux = lista->start;
 
+    if(lista->total == 0){
+        printf("La lista se encuentra vacia, primero agrega algunos datos.\n");\
+        system("pause");
+        return;
+    }
+
     printf("Ingresa el nombre la persona que deseas buscar:\n");
     fflush(stdin);
     gets(nombre);

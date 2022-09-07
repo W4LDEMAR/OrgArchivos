@@ -259,6 +259,12 @@ void imp_searchD(ListaD *lista){//Imprime unicamente el nodo que el usuario indi
     NodoD *aux;
     aux = lista->start;
 
+    if(lista->total == 0){
+        printf("\nERROR: La lista esta vacia.\n");
+        system("pause");
+        return;
+    }
+
     system("cls");
     printf("\n\t **** B U S Q U E D A ****\n");
     printf("1.- Buscar por nombre\n");
