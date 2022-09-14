@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 /*
 Verifica si hay espacio disponible para los nodos y listas que desea agregar el usuario
 Funciones para llenar los datos necesarios
@@ -13,7 +14,7 @@ Funciones para llenar los datos necesarios
 typedef struct{
 
     int n_jug;
-    char nombre[50];
+    char nombre[20];
     int edad;
 
 }Jugador;
@@ -58,19 +59,20 @@ Equipo *nEquipo();
 Nodo *nuevoNodo();
 ListaPrincipal *n_listaE();
 int comp_op(int n);
+int comp_num();
 
 Jugador nuevoJugador(){
 
     Jugador nuevo;
 
-    char nombre[50];
+    char nombre[20];
     int i;
 
     system("cls");
     printf("\t**** N U E V O   J U G A D O R ****\n");
     printf("Ingresa el numero del jugador:\n");
     fflush(stdin);
-    scanf("%d", &nuevo.n_jug);
+    nuevo.n_jug = comp_num();
     printf("ingresa el nombre del jugador:\n");
     fflush(stdin);
     gets(nombre);
@@ -80,7 +82,7 @@ Jugador nuevoJugador(){
     strcpy(nuevo.nombre, nombre);
     printf("ingresa la edad del jugador:\n");
     fflush(stdin);
-    scanf("%d", &nuevo.edad);
+    nuevo.edad = comp_num();
 
     return nuevo;
 
@@ -172,6 +174,24 @@ int comp_op(int n){
     }
 
     return op;
+}
+
+int comp_num(){ //Comprueba si el usuario introdujo un numero
+
+    int n, comp;
+
+    if(scanf("%d", &n)){
+        return n;
+    }else{
+        do{
+            printf("ERROR: Introduce un numero.\n");
+            scanf("%*[^\n]%*c"); //Sacar el flujo para no caer en un bucle
+            comp = scanf("%d", &n);
+        }while(comp != 1);
+    }
+
+    return n;
+
 }
 
 #endif // LISTAPRINCIPAL_H_INCLUDED
