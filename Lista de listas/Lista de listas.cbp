@@ -32,6 +32,7 @@
 			<Add option="-Wall" />
 		</Compiler>
 		<Unit filename="Equipo.h" />
+		<Unit filename="Jugador.h" />
 		<Unit filename="Listas.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />

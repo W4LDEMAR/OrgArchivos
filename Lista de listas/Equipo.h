@@ -5,6 +5,7 @@
 
 ListaPrincipal *menuEquipo(ListaPrincipal *lista);
 short int push(ListaPrincipal *lista);
+short int borrar(ListaPrincipal *lista);
 
 ListaPrincipal *menuEquipo(ListaPrincipal *lista){
 
@@ -29,19 +30,27 @@ ListaPrincipal *menuEquipo(ListaPrincipal *lista){
 
         case 1:
             v = push(lista);
+            if(v != 0){
+                printf("Error: No se pudo completar la accion.\n");
+                system("pause");
+            }else{
+                printf("Equipo agregado con exito!!\n");
+                system("pause");
+            }
+            break;
+
+        case 2:
+             v = borrar(lista);
                 if(v != 0){
-                    printf("Error: No se pudo completar la accion.\n");
                     system("pause");
                 }else{
-                    printf("Alumno agregado con exito!!");
+                    printf("Equipo eliminado con exito!!\n");
                     system("pause");
                 }
             break;
 
-        case 2:
-            break;
-
         case 3:
+            imp_search(lista);
             break;
         }
 
@@ -64,8 +73,8 @@ short int push(ListaPrincipal *lista){
         nuevo = nuevoNodo();
     }
 
-    while(search_ciudad(lista, nuevo->team->ciudad != 1)){
-        printf("ERROR: Ya existe un equipo con esa ciudad. Intenta con otra.\n");
+    while(search_ciudad(lista, nuevo->team->ciudad) != -1){
+        printf("ERROR: Ya existe un equipo con ese nombre. Intenta con otro.\n");
         system("pause");
         nuevo = nuevoNodo();
     }
@@ -208,14 +217,13 @@ short int borrar(ListaPrincipal *lista){
     aux = lista->start;
 
     if(lista->total == 0){//La lista esta vacia y se devuelve 1
-        printf("ERROR: La lista esta vacia, no hay nada que borrar");
+        printf("ERROR: La lista esta vacia, no hay nada que borrar\n");
         return 1;
     }else{
 
         if(lista->total == 1){
             //Se borrara el unico nodo de la lista
-            printf("El unico alumno de la lista sera borrado...");
-            system("pause");
+            printf("El unico equipo de la lista sera borrado...\n");
             aux = lista->start;
             lista->start = NULL;
             lista->end = NULL;
@@ -327,55 +335,68 @@ void borrar_mid(ListaPrincipal *lista, int lugar){
 
 }
 
-void imp_lista(ListaPrincipal *lista){
-    /*
-    Recorre la lista con un auxiliar hasta llegar al ultimo (el que es nulo)
-    imprimiendo todos sus datos.
-    */
+void imp_search(ListaPrincipal *lista){//Imprime unicamente el nodo que el usuario indica
 
+    char nombre[50];
+    int lugar, i, x, r, j;
     Nodo *aux;
-    int x;
+    aux = lista->start;
 
     system("cls");
+    printf("\n\t **** B U S Q U E D A ****\n");
+    printf("1.- Buscar por nombre\n");
+    printf("2.- Buscar por ciudad\n");
+    printf("0.- REGRESAR\n");
+    r = comp_op(3);
 
-    if(lista->total == 0){//Si la lista esta vacia no entra a la seleccion de orden de impresion
-        printf("\n\n\tERROR: La lista se encuentra vacia ingresa primero algunos datos\n");
+    switch(r){
+
+        case 0:
+            return;
+            break;
+
+        case 1:
+            printf("Ingresa el nombre del equipo que deseas buscar:\n");
+            fflush(stdin);
+            gets(nombre);
+            for(x = 0; nombre[x] != NULL; ++x){
+                nombre[x] = toupper(nombre[x]);
+            }
+            lugar = search_nombre(lista, nombre);
+            break;
+
+        case 2:
+            printf("Ingresa la ciudad del equipo que deseas buscar:\n");
+            fflush(stdin);
+            gets(nombre);
+            for(x = 0; nombre[x] != NULL; ++x){
+                nombre[x] = toupper(nombre[x]);
+            }
+            lugar = search_ciudad(lista, nombre);
+            break;
+
+    }
+
+    if(lugar < 0){
+        printf("ERROR: No se encontro ningun equipo con esos datos.\n");
+        printf("Veriica el ingreso de datos\n");
         system("pause");
         return;
     }
 
-    printf("1.- Mostrar en orden ascendente\n");
-    printf("2.- Mostrar en orden descendente\n");
-    printf("0.- REGRESAR\n");
+    for(i = 0; i < lugar; i++){
+        aux = aux->abajo;
+    }
 
-    x = comp_op(2);
+    printf("%s ---- [%s] con %d jugadores.\n", aux->team->nombre_team, aux->team->ciudad, aux->team->total_j);
+    if(aux->team->total_j != 0){
+        NodoS *jug;
 
-    switch(x){
-        case 1://Imprimira del inicio de la lista hasta el final
-
-            aux = lista->start;
-
-            printf("\n\t\t**** D A T O S ****\n");
-            while(aux != NULL){
-
-                printf("%s ---- [%s] con %d jugadores.\n", aux->team->nombre_team, aux->team->ciudad, aux->team->total_j);
-                aux = aux->abajo;
-
-            }
-            break;
-
-        case 2://Imprimira del final de la lista hasta el inicio
-
-            aux = lista->end;
-            printf("\n\t\t**** D A T O S ****\n");
-            while(aux != NULL){
-
-                printf("%s ---- [%s] con %d jugadores.\n", aux->team->nombre_team, aux->team->ciudad, aux->team->total_j);
-                aux = aux->arriba;
-
-            }
-            break;
-
+        jug = aux->team->start;
+        for(j = 0; j < aux->team->total_j; j++){
+            printf("%s tiene %d anos\n", jug->jugador.nombre, jug->jugador.edad);
+            jug = jug->sig;
+        }
     }
 
     system("pause");

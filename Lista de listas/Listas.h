@@ -107,7 +107,7 @@ NodoS *nuevoNodoS(){
 Equipo *nEquipo(){
 
     Equipo *nuevo;
-    char nombre[20];
+    char nombre[20], ciudad [20];
     int i;
 
     nuevo = (Equipo*)malloc(sizeof(Equipo));
@@ -126,11 +126,11 @@ Equipo *nEquipo(){
     strcpy(nuevo->nombre_team, nombre);
     printf("Ingresa la ciudad del nuevo equipo:\n");
     fflush(stdin);
-    gets(nombre);
-    for(i = 0; nombre[i] != NULL; ++i){
-        nombre[i] = toupper(nombre[i]);
+    gets(ciudad);
+    for(i = 0; ciudad[i] != NULL; ++i){
+        ciudad[i] = toupper(ciudad[i]);
     }
-    strcpy(nuevo->ciudad, nombre);
+    strcpy(nuevo->ciudad, ciudad);
 
     return nuevo;
 }
@@ -168,8 +168,9 @@ int comp_op(int n){
     scanf("%d", &op);
 
     if(op < 0 || op > n){
-        printf("ERROR: Elige una opcion dentro del menu.");
+        printf("ERROR: Elige una opcion dentro del menu.\n");
         system("pause");
+        scanf("%*[^\n]%*c");
         op = comp_op(n);
     }
 

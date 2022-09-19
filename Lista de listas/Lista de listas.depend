@@ -1,16 +1,16 @@
 # depslib dependency file v1.0
-1663041991 source:c:\users\saul\documents\universidad\asalle\segundo semestre\programacion\lista de listas\main.c
+1663215185 source:c:\users\saul\documents\universidad\asalle\segundo semestre\programacion\lista de listas\main.c
 	<string.h>
 	<stdio.h>
 	<stdlib.h>
 	"Listas.h"
 	"Equipo.h"
 
-1663122501 c:\users\saul\documents\universidad\asalle\segundo semestre\programacion\lista de listas\listas.h
+1663216028 c:\users\saul\documents\universidad\asalle\segundo semestre\programacion\lista de listas\listas.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 
-1663122699 c:\users\saul\documents\universidad\asalle\segundo semestre\programacion\lista de listas\equipo.h
+1663216350 c:\users\saul\documents\universidad\asalle\segundo semestre\programacion\lista de listas\equipo.h
 	"Listas.h"
 
