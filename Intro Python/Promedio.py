@@ -1,9 +1,11 @@
 # Promedio de n valores
+import os
 
 import Comprobar
 
 
 def prom():
+    os.system("cls")
     print("\n\t*** P R O M E D I O ***\n")
     print("Ingresa el numero de datos que deseas promediar:")
     n = Comprobar.comp_n()

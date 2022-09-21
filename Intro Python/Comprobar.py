@@ -13,11 +13,11 @@ def comp_n():  # Comprueba si el usuario ingreso un numero
 
 def comp_op(x, y):  # Comprueba que la opcion deseada este dentro de los parametros
 
-    print("Ingresa la opcion deseada:")
+    print("\nIngresa la opcion deseada:")
     op = comp_n()
 
     while op < x or op > y:
-        print("ERROR: Elige una opcion dentro del menu.\n")
+        print("ERROR: Elige una opcion dentro del menu.")
         op = comp_op(x, y)
 
     return op
