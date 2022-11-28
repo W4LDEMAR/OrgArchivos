@@ -1,5 +1,84 @@
 # depslib dependency file v1.0
-1584209020 source:d:\users\al220742\desktop\proyecto final\main.c
+1664371837 source:d:\users\al220742\desktop\proyecto final\main.c
 	<stdio.h>
 	<stdlib.h>
+	<string.h>
+	"Estructuras.h"
+
+1664375406 d:\users\al220742\desktop\proyecto final\estructuras.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1665546973 source:c:\users\saul\documents\universidad\asalle\segundo semestre\programacion\proyecto final\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Estructuras.h"
+	"Clientes.h"
+
+1665545124 c:\users\saul\documents\universidad\asalle\segundo semestre\programacion\proyecto final\estructuras.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1665550392 c:\users\saul\documents\universidad\asalle\segundo semestre\programacion\proyecto final\clientes.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Estructuras.h"
+
+1668187475 source:d:\users\al220742\desktop\proyecto final\proyecto final\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Estructuras.h"
+	"Clientes.h"
+
+1668187475 d:\users\al220742\desktop\proyecto final\proyecto final\estructuras.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1668187475 d:\users\al220742\desktop\proyecto final\proyecto final\clientes.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Estructuras.h"
+
+1669387596 source:d:\proyecto final\proyecto final\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Estructuras.h"
+	"Clientes.h"
+
+1669392304 d:\proyecto final\proyecto final\estructuras.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1669388800 d:\proyecto final\proyecto final\clientes.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Estructuras.h"
+
+1669404680 source:f:\proyecto final\proyecto final\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Estructuras.h"
+	"Clientes.h"
+
+1669403884 f:\proyecto final\proyecto final\estructuras.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1669402996 f:\proyecto final\proyecto final\clientes.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Estructuras.h"
 

@@ -31,8 +31,9 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="Clientes.h" />
+		<Unit filename="Cuentas.h" />
 		<Unit filename="Estructuras.h" />
-		<Unit filename="Menu.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>

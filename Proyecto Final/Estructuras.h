@@ -1,7 +1,12 @@
 #ifndef ESTRUCTURAS_H_INCLUDED
 #define ESTRUCTURAS_H_INCLUDED
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #define MAXCuentas 5  //Numero maximo de cuentas
+#define TamHashing 20
 
 typedef struct{
 
@@ -20,7 +25,7 @@ typedef struct{
 
 } Cuenta;
 
-typedef struct{
+typedef struct Cliente{
 
     int n_cliente;
     Persona datos;
@@ -28,6 +33,7 @@ typedef struct{
     float saldo_n;  // Saldo negativo - deudor (suma cuentas de credito)
     int cant_cuentas;
     Cuenta C[MAXCuentas];
+    struct Cliente *sig;
 
 } Cliente;
 
@@ -37,6 +43,21 @@ Cuenta nuevaCuenta(int);
 int comp_op(int);
 float comp_float();
 
+unsigned int hash(char *nombre){ // Generar el numero de posicion en la tabla de hashing
+
+    int i;
+    unsigned int n_hash;
+
+    int length = strlen(nombre);
+    for(i = 0; i < length; i++){
+        n_hash += nombre[i];
+        n_hash = (n_hash * nombre[i]) % TamHashing;
+    }
+
+    return n_hash;
+
+}
+
 Persona nuevaPersona(){  // Pide los datos necesarios para la estructura persona
 
     Persona nuevo;
@@ -44,7 +65,7 @@ Persona nuevaPersona(){  // Pide los datos necesarios para la estructura persona
 
     printf("Ingresa el nombre del cliente:\n");
     fflush(stdin);
-    gets(nuevo.nombre)
+    gets(nuevo.nombre);
     for(i = 0; nuevo.nombre[i] != NULL; ++i){
         nuevo.nombre[i] = toupper(nuevo.nombre[i]);
     }
@@ -60,6 +81,7 @@ Persona nuevaPersona(){  // Pide los datos necesarios para la estructura persona
     printf("Ingresa el correo del cliente:\n");
     fflush(stdin);
     gets(nuevo.correo);
+    fflush(stdin);
 
     return nuevo;
 
@@ -68,67 +90,47 @@ Persona nuevaPersona(){  // Pide los datos necesarios para la estructura persona
 Cuenta nuevaCuenta(int n_cuenta){  //Llena la estructura de cuenta
 
     Cuenta nuevo;
-    int i;
+    int i, x;
 
     system("cls");
     printf("\n\t*** N U E V A   C U E N T A ***\n");
-    printf("Cuenta %d -->\n", n_cuenta);
+    printf("Cuenta numero %d -->\n", n_cuenta);
     nuevo.n_cuenta = n_cuenta;
-    printf("Ingresa el tipo de cuenta (credito/debito):\n");
-    fflush(stdin);
-    gets(nuevo.t_cuenta);
-    for(i = 0; nuevo.t_cuenta[i] != NULL; ++i){
-        nuevo.t_cuenta[i] = toupper(nuevo.t_cuenta[i]);
+    printf("Elige el tipo de cuenta:\n0.- Debito\n1.- Credito");
+    x = comp_op(1);
+    if(x == 0){
+        strcpy(nuevo.t_cuenta, "DEBITO");
+        printf("Ingrese el saldo de apertura:\n");
+        fflush(stdin);
+        nuevo.saldo = comp_float();
+    }else{
+        strcpy(nuevo.t_cuenta, "CREDITO");
+        nuevo.saldo = 0;
+        printf("Se aprobo el credito correctamente.\n");
     }
-    printf("Ingrese el saldo de la cuenta:\n");
-    fflush(stdin);
-    nuevo.saldo = comp_float();
 
     return nuevo;
 }
 
-Cliente nuevoCliente(int n_cliente){  // Llena la estructura de cliente
 
-    Cliente nuevo;
-    int op, op2;
+Cliente *nuevoCliente(){  // Llena la estructura de cliente
+
+    Cliente *nuevo;
+    nuevo = (Cliente*)malloc(sizeof (Cliente));
+    int op, op2, n_cliente, cuentas_de_cliente;
+    float dinero;
+
+    n_cliente = rand() % 4000 + 1000; // Genera numero aleatorio entre 1000 y 5000
 
     system("cls");
     printf("\n\t*** N U E V O   C L I E N T E ***\n");
-    nuevo.n_cliente = n_cliente;
-    printf("Cliente %d -->\n", nuevo.n_cliente);
-    nuevo.datos = nuevaPersona();
-    nuevo.saldo_p = 0;
-    nuevo.saldo_n = 0;
-    nuevo.cant_cuentas = 0;
-
-    printf("Deseas agregarle una cuenta al nuevo cliente?\n");
-    printf("1.- SI, agrega una cuenta.\n");
-    printf("0.- NO, agrega la cuenta mas tarde.\n");
-    op = comp_op(1);
-
-    if(op == 1){
-        do{
-
-            if(nuevo.cant_cuentas < 5){
-
-                nuevo.C[nuevo.cant_cuentas] = nuevaCuenta(nuevo.cant_cuentas + 1); //FALTA CAMBIAR EL SALDO CON LOS DATOS DE LA NUEVA CUENTA
-                nuevo.cant_cuentas++;
-                printf("Se agrego la cuenta con exito!\n\n");
-                printf("Deseas agregar otra cuenta al nuevo cliente?\n");
-                printf("0.- NO, regresar al menu principal.\n");
-                printf("1.- SI, ingresar otra cuenta al cliente.\n");
-                op2 = comp_op(1);
-
-            }else{
-
-                printf("ERROR: Has alcanzado el limite de cuentas por cliente.\n");
-                system("pause");
-                op2 = 0;
-
-            }
-
-        }while(op2 != 0);
-    }
+    nuevo->n_cliente = n_cliente;
+    printf("Cliente %d -->\n", nuevo->n_cliente);
+    nuevo->datos = nuevaPersona();
+    nuevo->saldo_p = 0;
+    nuevo->saldo_n = 0;
+    nuevo->cant_cuentas = 1;
+    nuevo->sig = NULL;
 
     return nuevo;
 
